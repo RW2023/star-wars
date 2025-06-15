@@ -1,8 +1,7 @@
-import { getResource, extractId } from "@/lib/api";
+// app/people/page.tsx (server component)
+import { getPeoplePage, extractId } from "@/lib/api";
 import ItemCard from "@/components/ItemCard";
-import Pagination from "@/components/Pagination";
-
-type Person = { name: string; url: string };
+import ClientPagination from "@/components/ClientPagination";
 
 export const metadata = { title: "Characters · SWAPI Explorer" };
 
@@ -12,23 +11,13 @@ export default async function PeoplePage({
     searchParams?: { page?: string };
 }) {
     const page = Number(searchParams?.page ?? 1);
-
-    const data = await getResource<Person[] | { results?: Person[]; next?: string | null }>(
-        `/people?page=${page}`
-    );
-
-    const list: Person[] = Array.isArray(data) ? data : data.results ?? [];
-    const hasMore = Array.isArray(data) ? list.length >= 10 : Boolean(data.next);
+    const { list, hasMore } = await getPeoplePage(page);
 
     return (
         <section className="max-w-6xl mx-auto px-4 py-14 space-y-10 text-foreground">
-            <div className="space-y-2 text-center">
-                <h2 className="text-4xl font-extrabold text-primary tracking-tight">
-                    Characters
-                </h2>
-                <p className="text-base opacity-80">
-                    Browse your favorite characters from the Star Wars universe.
-                </p>
+            <div className="text-center space-y-2">
+                <h2 className="text-4xl font-extrabold text-primary">Characters</h2>
+                <p className="opacity-80 text-sm">Browse characters from the Star Wars universe.</p>
             </div>
 
             <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -45,9 +34,7 @@ export default async function PeoplePage({
                 ))}
             </ul>
 
-            <div className="pt-6">
-                <Pagination currentPage={page} hasMore={hasMore} basePath="/people" />
-            </div>
+            <ClientPagination currentPage={page} hasMore={hasMore} />
         </section>
     );
 }
