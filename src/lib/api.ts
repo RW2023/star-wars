@@ -24,7 +24,7 @@ export async function getResource<T>(
 /** Extracts the numeric ID from a SWAPI URL */
 export function extractId(url: string): string {
   const parts = url.split("/").filter(Boolean);
-  return parts[parts.length - 1];
+  return parts[parts.length - 1] ?? "";
 }
 
 /* ---------------------- Types ---------------------- */
@@ -93,7 +93,7 @@ export async function getPeoplePage(
     : response.results ?? [];
   const hasMore = Array.isArray(response)
     ? list.length >= 10
-    : Boolean((response as any).next);
+    : Boolean((response as { next?: string | null }).next);
 
   return { list, hasMore };
 }
