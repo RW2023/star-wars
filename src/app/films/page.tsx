@@ -42,7 +42,7 @@ export default async function FilmsPage() {
 
     return (
         <main className="p-6 space-y-6 max-w-3xl mx-auto text-[var(--color-foreground)]">
-            <h1 className="text-4xl font-bold text-center">Star Wars Films</h1>
+            <h1 className="text-5xl font-extrabold tracking-widest text-primary drop-shadow-[0_0_10px_var(--color-primary)]">Star Wars Films</h1>
 
             <ul className="grid gap-4">
                 {films.map((film) => {

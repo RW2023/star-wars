@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <section className="mx-auto max-w-3xl space-y-10 px-4 py-16 text-center">
       {/* Headline */}
-      <h1 className="text-5xl font-extrabold tracking-tight text-primary">
+      <h1 className="text-5xl font-extrabold tracking-widest text-primary drop-shadow-[0_0_10px_var(--color-primary)]">
         Explore&nbsp;the&nbsp;Galaxy
       </h1>
 
