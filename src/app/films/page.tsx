@@ -1,4 +1,3 @@
-// app/films/page.tsx
 import Link from "next/link";
 
 type Film = {
@@ -32,25 +31,37 @@ export default async function FilmsPage() {
     } catch (err) {
         console.error("Error loading films:", err);
         return (
-            <main className="p-4 max-w-xl mx-auto text-center">
-                <h1 className="text-2xl font-bold">Films</h1>
-                <p className="text-red-500 mt-4">Failed to load films. Please try again later.</p>
+            <main className="p-6 max-w-xl mx-auto text-center text-[var(--color-foreground)]">
+                <h1 className="text-3xl font-bold mb-4">Star Wars Films</h1>
+                <p className="text-red-500 text-lg">
+                    Failed to load films. Please try again later.
+                </p>
             </main>
         );
     }
 
     return (
-        <main className="p-4 space-y-6 max-w-3xl mx-auto">
-            <h1 className="text-3xl font-bold text-center">Star Wars Films</h1>
-            <ul className="space-y-4">
+        <main className="p-6 space-y-6 max-w-3xl mx-auto text-[var(--color-foreground)]">
+            <h1 className="text-4xl font-bold text-center">Star Wars Films</h1>
+
+            <ul className="grid gap-4">
                 {films.map((film) => {
                     const id = film.url.split("/").filter(Boolean).pop();
                     return (
-                        <li key={film.episode_id} className="border rounded p-4 hover:shadow-lg transition">
-                            <Link href={`/films/${id}`} className="text-lg font-semibold hover:underline">
-                                {film.title}
+                        <li key={film.episode_id}>
+                            <Link
+                                href={`/films/${id}`}
+                                className="block rounded-lg border border-[var(--color-primary)] bg-[var(--color-background)] hover:bg-[var(--color-primary)] text-[var(--color-foreground)] hover:text-black dark:hover:text-[var(--color-background)] shadow transition-colors duration-200"
+                            >
+                                <div className="p-4">
+                                    <h2 className="text-lg md:text-xl font-semibold">
+                                        {film.title}
+                                    </h2>
+                                    <p className="text-sm opacity-70">
+                                        Released: {film.release_date}
+                                    </p>
+                                </div>
                             </Link>
-                            <p className="text-sm text-gray-500">Released: {film.release_date}</p>
                         </li>
                     );
                 })}
