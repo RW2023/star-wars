@@ -75,6 +75,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                     className="input input-bordered w-full max-w-xs"
                 />
                 <select
+                title="gender Filter"
                     className="select select-bordered"
                     value={genderFilter}
                     onChange={(e) => setGenderFilter(e.target.value)}
@@ -88,6 +89,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                     <option value="unknown">Unknown</option>
                 </select>
                 <select
+                    title="Species Filter"
                     className="select select-bordered"
                     value={speciesFilter}
                     onChange={(e) => setSpeciesFilter(e.target.value)}
