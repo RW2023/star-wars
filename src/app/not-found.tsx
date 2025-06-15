@@ -24,7 +24,7 @@ export default function NotFound() {
                 <p className="text-base-content/80 text-lg leading-relaxed">
                     This route is <span className="font-semibold text-accent">not in the Jedi archives</span>.
                     <br />
-                    Perhaps you're searching in the wrong galaxy.
+                    Perhaps you&#39;re searching in the wrong galaxy.
                 </p>
 
                 {/* Buttons */}
@@ -38,6 +38,7 @@ export default function NotFound() {
                     </Link>
 
                     <button
+                        type="button"
                         onClick={() => router.back()}
                         className="btn btn-outline text-accent gap-2 hover:border-accent hover:text-accent-focus"
                     >
