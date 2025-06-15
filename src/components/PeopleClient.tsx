@@ -76,7 +76,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                 />
                 <select
                 title="gender Filter"
-                    className="select select-bordered"
+                    className="select select-bordered bg-[var(--color-background)]"
                     value={genderFilter}
                     onChange={(e) => setGenderFilter(e.target.value)}
                 >
@@ -90,7 +90,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                 </select>
                 <select
                     title="Species Filter"
-                    className="select select-bordered"
+                    className="select select-bordered bg-[var(--color-background)]"
                     value={speciesFilter}
                     onChange={(e) => setSpeciesFilter(e.target.value)}
                 >
@@ -108,7 +108,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                 {filtered.map((person) => (
                     <li
                         key={person.url}
-                        className="group relative rounded-xl border border-base-300 bg-base-200/80 backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-primary hover:ring hover:ring-primary/30 hover:ring-offset-1"
+                        className="group relative rounded-xl border border-base-300  backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-primary hover:ring hover:ring-primary/30 hover:ring-offset-1"
                     >
                         <div className="p-4">
                             <ItemCard
