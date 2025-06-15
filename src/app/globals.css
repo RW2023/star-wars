@@ -1,26 +1,43 @@
+/* globals.css – palette‑driven theming that responds to .dark class */
 @import "tailwindcss";
 
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
-  root: ":root";
-}
-
+/* ------------------------- LIGHT (default) ------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand */
+  --color-primary: #FFE81F;
+  /* Star‑Wars yellow */
+  /* UI */
+  --color-background: #ffffff;
+  --color-foreground: #111827;
+  --color-secondary: #4B5563;
+  --color-accent: #4B5D67;
+  --color-info: #3ABFF8;
+
+  /* Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* --------------------------- DARK MODE ---------------------------- */
+.dark {
+  --color-background: #0F0F1B;
+  --color-foreground: #E5E5E5;
+  --color-secondary: #D1D5DB;
+  /* Keep accent/info/primary unless you want alternates */
 }
 
+/* ------------------------- GLOBAL STYLES -------------------------- */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background 0.3s, color 0.3s;
+  /* smooth theme swap */
+}
+
+/* Utility helpers (optional) --------------------------------------- */
+@layer utilities {
+  .content-auto {
+    content-visibility: auto;
+  }
 }
