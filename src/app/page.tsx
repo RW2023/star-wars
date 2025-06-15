@@ -1,5 +1,8 @@
+// app/page.tsx
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+
+export const metadata = { title: "SWAPI Explorer · Home" };
 
 export default function HomePage() {
   const links = [
@@ -12,30 +15,51 @@ export default function HomePage() {
   ];
 
   return (
-    <section className="max-w-3xl mx-auto text-center space-y-8 py-12 px-4 text-foreground">
+    <section className="mx-auto max-w-3xl space-y-10 px-4 py-16 text-center">
       {/* Headline */}
       <h1 className="text-5xl font-extrabold tracking-tight text-primary">
-        Explore the Galaxy
+        Explore&nbsp;the&nbsp;Galaxy
       </h1>
 
       {/* Sub-heading */}
       <p className="opacity-80">
-        Click any category to begin your journey through the Star&nbsp;Wars API.
+        Click any category to begin your journey through the&nbsp;Star&nbsp;Wars API.
       </p>
 
-      {/* Category buttons */}
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      {/* Category grid */}
+      <ul className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {links.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className="btn h-14 border-primary text-primary hover:bg-primary hover:text-background transition-colors group"
-          >
-            {label}
-            <ArrowRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition" />
-          </Link>
+          <li key={href}>
+            <Link
+              href={href}
+              className="
+                group relative flex h-14 items-center justify-center overflow-hidden rounded-lg
+                border border-accent/40 bg-background px-4 font-medium
+                text-primary outline-none transition
+                hover:shadow-primary/40 focus-visible:ring focus-visible:ring-primary/60
+              "
+            >
+              {/* subtle hyperspace streak */}
+              <span
+                className="
+                  absolute inset-0 -z-10 translate-x-[-120%] bg-gradient-to-r
+                  from-transparent via-primary/20 to-primary/0 opacity-0
+                  transition-all duration-500 group-hover:translate-x-[120%] group-hover:opacity-100
+                "
+                aria-hidden="true"
+              />
+
+              {label}
+              <ArrowRight
+                className="ml-2 h-4 w-4 shrink-0 transition-all
+                           group-hover:translate-x-1 group-hover:opacity-100
+                           opacity-0"
+                aria-hidden="true"
+              />
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
