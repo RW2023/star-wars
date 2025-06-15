@@ -1,55 +1,89 @@
-import { getPlanetByName } from "@/lib/api";
-import { notFound } from "next/navigation";
+import { getResource } from "@/lib/api";
+import BackButton from "@/components/BackButton";
+import DetailSection from "@/components/DetailSection";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
-export default async function PlanetDetailPage({
+type Person = {
+    name: string;
+    height: string;
+    mass: string;
+    gender: string;
+    homeworld: string;
+    films: string[];
+};
+
+type Film = {
+    title: string;
+    url: string;
+    episode_id: number;
+};
+
+export const metadata = {
+    title: "Character Details · SWAPI Explorer",
+};
+
+export default async function PersonDetail({
     params,
 }: {
-    params: { slug: string };
+    params: { id: string };
 }) {
-    const name = decodeURIComponent(params.slug);
-    const planet = await getPlanetByName(name);
+    const person = await getResource<Person>(`/people/${params.id}`);
+    const homeworldId = extractId(person.homeworld);
 
-    if (!planet) return notFound();
+    // Fetch film titles + episode numbers
+    const films: Film[] = await Promise.all(
+        person.films.map(async (url) => {
+            const film = await getResource<Film>(url);
+            return film;
+        })
+    );
 
     return (
-        <main className="max-w-3xl mx-auto px-4 py-10 space-y-8 text-foreground">
-            {/* Back link */}
-            <Link
-                href="/planets"
-                className="inline-flex items-center gap-2 btn btn-sm border-primary text-primary hover:bg-primary hover:text-background transition-colors"
-            >
-                <ArrowLeft className="w-4 h-4" /> Back to Planets
-            </Link>
+        <article className="max-w-3xl mx-auto px-4 py-10 space-y-6 text-foreground">
+            <BackButton />
+            <h1 className="text-4xl font-extrabold text-primary">{person.name}</h1>
 
-            {/* Heading */}
-            <div className="space-y-2">
-                <h1 className="text-4xl font-bold text-primary">{planet.name}</h1>
-                <p className="opacity-80 text-lg">
-                    Climate: <span className="text-secondary">{planet.climate}</span>
-                </p>
+            <div className="space-y-3">
+                <DetailSection label="Height" value={`${person.height} cm`} />
+                <DetailSection label="Mass" value={`${person.mass} kg`} />
+                <DetailSection label="Gender" value={person.gender} />
+                <DetailSection
+                    label="Homeworld"
+                    value={
+                        <Link href={`/planets/${homeworldId}`} className="link">
+                            View Planet
+                        </Link>
+                    }
+                />
             </div>
 
-            {/* Planet stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {([
-                    { label: "Population", value: planet.population },
-                    { label: "Terrain", value: planet.terrain },
-                    { label: "Gravity", value: planet.gravity },
-                    { label: "Diameter", value: `${planet.diameter} km` },
-                    { label: "Rotation Period", value: `${planet.rotation_period} hours` },
-                    { label: "Orbital Period", value: `${planet.orbital_period} days` },
-                ] as { label: string; value: string | number }[]).map(({ label, value }) => (
-                    <div
-                        key={label}
-                        className="p-4 rounded-lg border border-accent/40 bg-background/60 shadow-sm"
-                    >
-                        <h3 className="font-semibold text-foreground mb-1">{label}</h3>
-                        <p className="text-secondary break-words">{value}</p>
-                    </div>
-                ))}
+            {/* Films */}
+            <div className="space-y-2 pt-4">
+                <h2 className="text-xl font-semibold">Films</h2>
+                {films.length > 0 ? (
+                    <ul className="list-disc list-inside space-y-1 text-sm">
+                        {films.map((film) => {
+                            const id = extractId(film.url);
+                            return (
+                                <li key={film.url}>
+                                    <Link href={`/films/${id}`} className="link">
+                                        {film.episode_id
+                                            ? `Episode ${film.episode_id}: ${film.title}`
+                                            : film.title || `View Film #${id}`}
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                ) : (
+                    <p className="opacity-70 text-sm">No film appearances listed.</p>
+                )}
             </div>
-        </main>
+        </article>
     );
+}
+
+function extractId(url: string) {
+    const parts = url.split("/").filter(Boolean);
+    return parts[parts.length - 1];
 }
