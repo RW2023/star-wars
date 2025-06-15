@@ -1,0 +1,128 @@
+// src/components/PeopleClient.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import ItemCard from "@/components/ItemCard";
+import ClientPagination from "@/components/ClientPagination";
+import { extractId, getSpeciesName } from "@/lib/api";
+import type { Person } from "@/lib/types";
+
+interface Props {
+    people: Person[];
+    page: number;
+    hasMore: boolean;
+}
+
+type EnrichedPerson = Person & { speciesName: string };
+
+export default function PeopleClient({ people, page, hasMore }: Props) {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [genderFilter, setGenderFilter] = useState("All");
+    const [speciesFilter, setSpeciesFilter] = useState("All");
+    const [enrichedPeople, setEnrichedPeople] = useState<EnrichedPerson[]>([]);
+    const [filtered, setFiltered] = useState<EnrichedPerson[]>([]);
+
+    useEffect(() => {
+        async function enrichWithSpecies() {
+            const enriched = await Promise.all(
+                people.map(async (p) => {
+                    const speciesName = p.species?.[0]
+                        ? await getSpeciesName(p.species[0])
+                        : "Human";
+                    return { ...p, speciesName };
+                })
+            );
+            setEnrichedPeople(enriched);
+        }
+        enrichWithSpecies();
+    }, [people]);
+
+    useEffect(() => {
+        let result = enrichedPeople;
+        if (searchTerm) {
+            result = result.filter((p) =>
+                p.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+        if (genderFilter !== "All") {
+            result = result.filter((p) => p.gender === genderFilter);
+        }
+        if (speciesFilter !== "All") {
+            result = result.filter((p) => p.speciesName === speciesFilter);
+        }
+        setFiltered(result);
+    }, [searchTerm, genderFilter, speciesFilter, enrichedPeople]);
+
+    return (
+        <section className="max-w-7xl mx-auto px-4 py-16 space-y-14 text-foreground">
+            {/* Hero Title */}
+            <div className="text-center space-y-3">
+                <h1 className="text-5xl font-extrabold tracking-widest text-primary drop-shadow-[0_0_10px_var(--color-primary)]">
+                    CHARACTERS
+                </h1>
+                <p className="text-secondary text-base sm:text-lg max-w-xl mx-auto">
+                    Meet the iconic beings of the Star Wars universe — rebels, empires, and everyone in between.
+                </p>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                <input
+                    type="text"
+                    placeholder="Search by name"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="input input-bordered w-full max-w-xs"
+                />
+                <select
+                    className="select select-bordered"
+                    value={genderFilter}
+                    onChange={(e) => setGenderFilter(e.target.value)}
+                >
+                    <option value="All">All Genders</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="n/a">N/A</option>
+                    <option value="hermaphrodite">Hermaphrodite</option>
+                    <option value="none">None</option>
+                    <option value="unknown">Unknown</option>
+                </select>
+                <select
+                    className="select select-bordered"
+                    value={speciesFilter}
+                    onChange={(e) => setSpeciesFilter(e.target.value)}
+                >
+                    <option value="All">All Species</option>
+                    {[...new Set(enrichedPeople.map((p) => p.speciesName))].map((s) => (
+                        <option key={s} value={s}>
+                            {s}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {/* Card Grid */}
+            <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {filtered.map((person) => (
+                    <li
+                        key={person.url}
+                        className="group relative rounded-xl border border-base-300 bg-base-200/80 backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-primary hover:ring hover:ring-primary/30 hover:ring-offset-1"
+                    >
+                        <div className="p-4">
+                            <ItemCard
+                                href={`/people/${extractId(person.url)}`}
+                                title={person.name}
+                                className="block text-lg font-semibold text-foreground group-hover:text-primary transition-colors"
+                            />
+                        </div>
+                    </li>
+                ))}
+            </ul>
+
+            {/* Pagination */}
+            <div className="flex justify-center pt-6">
+                <ClientPagination currentPage={page} hasMore={hasMore} basePath="/people" />
+            </div>
+        </section>
+    );
+}

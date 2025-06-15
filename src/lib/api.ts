@@ -103,3 +103,14 @@ export async function getPeoplePage(
 export async function getFilm(id: string): Promise<Film> {
   return getResource<Film>(`/films/${id}`);
 }
+
+// Fetches the species name from a given URL
+export async function getSpeciesName(url: string): Promise<string> {
+  if (!url) return "Unknown";
+
+  const res = await fetch(url);
+  if (!res.ok) return "Unknown";
+
+  const data = await res.json();
+  return data.name || "Unknown";
+}
