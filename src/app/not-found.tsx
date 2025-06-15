@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,38 +8,41 @@ export default function NotFound() {
     const router = useRouter();
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center bg-base-200 text-base-content px-4">
-            <div className="max-w-md text-center space-y-8">
-                {/* Lucide warning icon */}
-                <AlertTriangle className="mx-auto h-16 w-16 text-warning" />
+        <main className="min-h-screen bg-base-200 text-foreground flex items-center justify-center px-6 py-24">
+            <div className="w-full max-w-lg text-center space-y-10">
+                {/* Alert icon with pulse */}
+                <div className="inline-flex items-center justify-center rounded-full bg-warning/10 p-4 animate-pulse">
+                    <AlertTriangle className="h-10 w-10 text-warning" />
+                </div>
 
-                {/* Headline */}
-                <h1 className="text-5xl font-bold tracking-tight">
-                    404 – Page Not Found
+                {/* Big title */}
+                <h1 className="text-5xl font-extrabold tracking-tight text-primary">
+                    404 – Not Found
                 </h1>
 
-                {/* Theme-flavoured copy */}
-                <p className="text-lg leading-relaxed">
-                    Uh-oh! This route is<strong> not in the Jedi archives</strong>.
-                    <br />The Force suggests returning to safer coordinates.
+                {/* Subtext */}
+                <p className="text-base-content/80 text-lg leading-relaxed">
+                    This route is <span className="font-semibold text-accent">not in the Jedi archives</span>.
+                    <br />
+                    Perhaps you're searching in the wrong galaxy.
                 </p>
 
-                {/* CTA buttons */}
-                <div className="flex flex-wrap justify-center gap-3">
+                {/* Buttons */}
+                <div className="flex flex-wrap justify-center gap-4 pt-4">
                     <Link
                         href="/"
-                        className="btn btn-primary gap-2"
+                        className="btn btn-primary gap-2 shadow-md hover:shadow-lg transition-shadow"
                     >
-                        <Home className="h-4 w-4" />
-                        Take me home
+                        <Home className="w-4 h-4" />
+                        Return Home
                     </Link>
 
                     <button
                         onClick={() => router.back()}
-                        className="btn btn-outline gap-2"
+                        className="btn btn-outline text-accent gap-2 hover:border-accent hover:text-accent-focus"
                     >
-                        <ArrowLeft className="h-4 w-4" />
-                        Go back
+                        <ArrowLeft className="w-4 h-4" />
+                        Go Back
                     </button>
                 </div>
             </div>
