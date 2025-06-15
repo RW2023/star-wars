@@ -1,9 +1,12 @@
-// app/not-found.tsx
+'use client';
 
 import Link from "next/link";
-import { AlertTriangle, Home } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { AlertTriangle, Home, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
+    const router = useRouter();
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-center bg-base-200 text-base-content px-4">
             <div className="max-w-md text-center space-y-8">
@@ -31,12 +34,13 @@ export default function NotFound() {
                         Take me home
                     </Link>
 
-                    <Link
-                        href="/people"
+                    <button
+                        onClick={() => router.back()}
                         className="btn btn-outline gap-2"
                     >
-                        Explore Characters
-                    </Link>
+                        <ArrowLeft className="h-4 w-4" />
+                        Go back
+                    </button>
                 </div>
             </div>
         </main>
