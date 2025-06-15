@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getResource, extractId } from "@/lib/api";
+import { getResource } from "@/lib/api";
 import BackButton from "@/components/BackButton";
 import DetailSection from "@/components/DetailSection";
 import { Users, Globe2 } from "lucide-react";
