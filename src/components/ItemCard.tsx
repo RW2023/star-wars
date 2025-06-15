@@ -9,14 +9,21 @@ type ItemCardProps = {
     className?: string;
 };
 
-export default function ItemCard({ href, title, className = "" }: ItemCardProps) {
+export default function ItemCard({
+    href,
+    title,
+    className = "",
+}: ItemCardProps) {
     return (
         <motion.div
             whileHover={{ scale: 1.05 }}
-            className={`card bg-base-200 shadow-lg cursor-pointer transition-all ${className}`}
+            className={`card bg-base-200 hover:shadow-xl transition-shadow duration-200 cursor-pointer ${className}`}
         >
-            <Link href={href} className="card-body h-full w-full flex items-center">
-                <h3 className="card-title text-foreground group-hover:text-primary transition-colors">
+            <Link
+                href={href}
+                className="card-body h-full w-full flex items-center group"
+            >
+                <h3 className="card-title text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">
                     {title}
                 </h3>
             </Link>
