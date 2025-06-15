@@ -1,20 +1,29 @@
 // src/lib/types.ts
 
 /**
- * Standard SWAPI paginated response
- * (same shape swapi.dev uses: count / next / previous / results)
+ * Standard paginated response format returned by SWAPI-like APIs
+ * Includes metadata (count, next, previous) plus a list of results.
  */
 export interface PaginatedResponse<T> {
-    count: number;
-    next: string | null;
-    previous: string | null;
-    results: T[];
-  }
-  
-  /**
-   * Some endpoints on swapi.info return *just* an array.
-   * This union type lets TypeScript accept either form without
-   * casting in every fetch wrapper.
-   */
-  export type ApiListResponse<T> = PaginatedResponse<T> | T[];
-  
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
+/**
+ * Some endpoints return just an array, without pagination metadata.
+ * This union allows fetch utilities to support both paginated and non-paginated formats.
+ */
+export type ApiListResponse<T> = PaginatedResponse<T> | T[];
+
+/**
+ * Core person type returned by the /people endpoint.
+ */
+export interface Person {
+  name: string;
+  url: string;
+  gender?: string;
+  species: string[]; // SWAPI returns an array of URLs
+}
+
