@@ -16,10 +16,20 @@ export default async function PeoplePage({
     const data = await getResource<{ results?: Person[]; next?: string | null }>(
         `/people?page=${page}`
     );
-    const list = Array.isArray(data) ? data : data.results ?? [];
-    const hasMore = Array.isArray(data)
-        ? list.length >= 10
-        : Boolean((data as { next?: string | null }).next);
+
+    // swapi.info returns the complete list, so we paginate client side
+
+    let list: Person[];
+    let hasMore: boolean;
+
+    if (Array.isArray(data)) {
+        const start = (page - 1) * 10;
+        list = data.slice(start, start + 10);
+        hasMore = start + 10 < data.length;
+    } else {
+        list = data.results ?? [];
+        hasMore = Boolean((data as { next?: string | null }).next);
+    }
 
     return <PeopleClient people={list} page={page} hasMore={hasMore} />;
 }
