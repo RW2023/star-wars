@@ -5,6 +5,7 @@ import ItemCard from "@/components/ItemCard";
 import ClientPagination from "@/components/ClientPagination";
 import { extractId, getSpeciesName } from "@/lib/api";
 import type { Person } from "@/lib/types";
+import BackToTopButton from "@/components/BackToTopButton";
 
 interface Props {
     people: Person[];
@@ -124,6 +125,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
             <div className="flex justify-center pt-6">
                 <ClientPagination currentPage={page} hasMore={hasMore} basePath="/people" />
             </div>
+            <BackToTopButton />
         </section>
     );
 }
