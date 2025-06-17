@@ -9,7 +9,9 @@ export default function DetailSection({
 }) {
     return (
         <div className="flex flex-wrap gap-x-2 gap-y-1 items-baseline text-[var(--color-foreground)]">
-            <span className="font-semibold text-[var(--color-accent)]">{label}:</span>
+            <span className="font-semibold text-[var(--color-primary-soft)]">
+                {label}:
+            </span>
             <span className="break-words">{value}</span>
         </div>
     );
