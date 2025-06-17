@@ -1,6 +1,5 @@
 // app/species/page.tsx
-import Link from "next/link";
-import { Dna } from "lucide-react";
+import SpeciesList from "@/components/SpeciesList";
 import { getSpeciesPage } from "@/lib/api";
 import BackToTopButton from "@/components/BackToTopButton";
 
@@ -9,39 +8,12 @@ export const metadata = {
 };
 
 export default async function SpeciesPage() {
-    // Fetch full first page of species (10 items) via existing API helper
     const { list } = await getSpeciesPage(1);
 
     return (
-        <section className="max-w-6xl mx-auto px-4 py-14 space-y-8 text-[var(--foreground)]">
-            <h1 className="text-4xl font-bold flex items-center gap-3">
-                <Dna className="w-8 h-8" />
-                Species
-            </h1>
-
-            <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {list.map((s) => (
-                    <li
-                        key={s.name}
-                        className="card bg-base-200 shadow hover:shadow-lg transition-colors"
-                    >
-                        <div className="card-body">
-                            <h2 className="card-title">{s.name}</h2>
-                            <p className="opacity-70 text-sm">
-                                Classification: {s.classification}
-                            </p>
-                            <Link
-                                href={`/species/${encodeURIComponent(s.name)}`}
-                                className="btn btn-sm btn-outline mt-2"
-                            >
-                                Details
-                            </Link>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-
+        <>
+            <SpeciesList list={list} />
             <BackToTopButton />
-        </section>
+        </>
     );
 }
