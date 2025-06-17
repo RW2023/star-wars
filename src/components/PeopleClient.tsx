@@ -1,4 +1,3 @@
-// src/components/PeopleClient.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -54,13 +53,13 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
     }, [searchTerm, genderFilter, speciesFilter, enrichedPeople]);
 
     return (
-        <section className="max-w-7xl mx-auto px-4 py-16 space-y-14 text-foreground">
+        <section className="max-w-7xl mx-auto px-4 py-16 space-y-14 text-[var(--color-foreground)]">
             {/* Hero Title */}
             <div className="text-center space-y-3">
                 <h1 className="text-5xl font-extrabold tracking-widest text-primary drop-shadow-[0_0_10px_var(--color-primary)]">
                     CHARACTERS
                 </h1>
-                <p className="text-secondary text-base sm:text-lg max-w-xl mx-auto">
+                <p className="text-[var(--color-secondary)] text-base sm:text-lg max-w-xl mx-auto">
                     Meet the iconic beings of the Star Wars universe — rebels, empires, and everyone in between.
                 </p>
             </div>
@@ -72,11 +71,11 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                     placeholder="Search by name"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full max-w-xs bg-[var(--color-background)] text-[var(--color-foreground)]"
                 />
                 <select
-                title="gender Filter"
-                    className="select select-bordered bg-[var(--color-background)]"
+                    title="Gender Filter"
+                    className="select select-bordered bg-[var(--color-background)] text-[var(--color-foreground)]"
                     value={genderFilter}
                     onChange={(e) => setGenderFilter(e.target.value)}
                 >
@@ -90,7 +89,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                 </select>
                 <select
                     title="Species Filter"
-                    className="select select-bordered bg-[var(--color-background)]"
+                    className="select select-bordered bg-[var(--color-background)] text-[var(--color-foreground)]"
                     value={speciesFilter}
                     onChange={(e) => setSpeciesFilter(e.target.value)}
                 >
@@ -108,13 +107,13 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                 {filtered.map((person) => (
                     <li
                         key={person.url}
-                        className="group relative rounded-xl border border-base-300  backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-primary hover:ring hover:ring-primary/30 hover:ring-offset-1"
+                        className="group relative rounded-xl border border-[var(--color-secondary)] bg-[var(--color-background)] backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-primary hover:ring hover:ring-primary/30 hover:ring-offset-1"
                     >
                         <div className="p-4">
                             <ItemCard
                                 href={`/people/${extractId(person.url)}`}
                                 title={person.name}
-                                className="block text-lg font-semibold text-foreground group-hover:text-primary transition-colors"
+                                className="block text-lg font-semibold text-[var(--color-foreground)] drop-shadow-[0_0_4px_var(--color-primary)] group-hover:text-primary transition-all"
                             />
                         </div>
                     </li>
