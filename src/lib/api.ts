@@ -93,20 +93,20 @@ export async function getPerson(id: string): Promise<Person> {
 }
 
 export async function getPeoplePage(
-  page: number
+page: number
 ): Promise<{ list: Person[]; hasMore: boolean }> {
-  const response = await getResource<
-    Person[] | { results?: Person[]; next?: string | null }
-  >(`/people?page=${page}`);
+const response = await getResource<
+Person[] | { results?: Person[]; next?: string | null }
+>(`/people?page=${page}`);
+const fullList = Array.isArray(response)
+? response
+: response.results ?? [];
+const list = fullList.slice((page - 1) * 10, page * 10);
+const hasMore = Array.isArray(response)
+? page * 10 < fullList.length
+: Boolean((response as { next?: string | null }).next);
 
-  const list = Array.isArray(response)
-    ? response
-    : response.results ?? [];
-  const hasMore = Array.isArray(response)
-    ? list.length >= 10
-    : Boolean((response as { next?: string | null }).next);
-
-  return { list, hasMore };
+return { list, hasMore };
 }
 
 /* ------------------ Film Wrappers ------------------ */
@@ -117,12 +117,21 @@ export async function getFilm(id: string): Promise<Film> {
 
 /* ------------------ Species Wrappers ------------------ */
 
-export async function getAllSpecies(
-  page: number
-): Promise<Species[] | { results?: Species[]; next?: string | null }> {
-  return getResource<Species[] | { results?: Species[]; next?: string | null }>(
-    `/species?page=${page}`
-  );
+export async function getSpeciesPage(
+page: number
+): Promise<{ list: Species[]; hasMore: boolean }> {
+const response = await getResource<
+Species[] | { results?: Species[]; next?: string | null }
+>(`/species?page=${page}`);
+const fullList = Array.isArray(response)
+? response
+: response.results ?? [];
+const list = fullList.slice((page - 1) * 10, page * 10);
+const hasMore = Array.isArray(response)
+? page * 10 < fullList.length
+: Boolean((response as { next?: string | null }).next);
+
+return { list, hasMore };
 }
 
 export async function getSpeciesByName(
