@@ -1,21 +1,19 @@
+// app/components/PeopleClient.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import ItemCard from "@/components/ItemCard";
-import ClientPagination from "@/components/ClientPagination";
 import { extractId, getSpeciesName } from "@/lib/api";
 import type { Person } from "@/lib/types";
 import BackToTopButton from "@/components/BackToTopButton";
 
 interface Props {
     people: Person[];
-    page: number;
-    hasMore: boolean;
 }
 
 type EnrichedPerson = Person & { speciesName: string };
 
-export default function PeopleClient({ people, page, hasMore }: Props) {
+export default function PeopleClient({ people }: Props) {
     const [searchTerm, setSearchTerm] = useState("");
     const [genderFilter, setGenderFilter] = useState("All");
     const [speciesFilter, setSpeciesFilter] = useState("All");
@@ -23,18 +21,18 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
     const [filtered, setFiltered] = useState<EnrichedPerson[]>([]);
 
     useEffect(() => {
-        async function enrichWithSpecies() {
+        async function enrich() {
             const enriched = await Promise.all(
-                people.map(async (p) => {
-                    const speciesName = p.species?.[0]
+                people.map(async (p) => ({
+                    ...p,
+                    speciesName: p.species?.[0]
                         ? await getSpeciesName(p.species[0])
-                        : "Human";
-                    return { ...p, speciesName };
-                })
+                        : "Human",
+                }))
             );
             setEnrichedPeople(enriched);
         }
-        enrichWithSpecies();
+        enrich();
     }, [people]);
 
     useEffect(() => {
@@ -61,7 +59,8 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                     CHARACTERS
                 </h1>
                 <p className="text-[var(--color-secondary)] text-base sm:text-lg max-w-xl mx-auto">
-                    Meet the iconic beings of the Star Wars universe — rebels, empires, and everyone in between.
+                    Meet the iconic beings of the Star Wars universe — rebels, empires,
+                    and everyone in between.
                 </p>
             </div>
 
@@ -121,10 +120,6 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                 ))}
             </ul>
 
-            {/* Pagination */}
-            <div className="flex justify-center pt-6">
-                <ClientPagination currentPage={page} hasMore={hasMore} basePath="/people" />
-            </div>
             <BackToTopButton />
         </section>
     );

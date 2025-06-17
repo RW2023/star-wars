@@ -1,15 +1,14 @@
 // app/people/page.tsx
-
 import PeopleClient from "@/components/PeopleClient";
-import { getPeoplePage } from "@/lib/api";
+import { getAllPeople } from "@/lib/api";
 
-export default async function PeoplePage({
-    searchParams,
-}: {
-    searchParams: { page?: string };
-}) {
-    const page = parseInt(searchParams.page || "1", 10);
-    const { list: people, hasMore } = await getPeoplePage(page);
+export const metadata = {
+    title: "Characters · SWAPI Explorer",
+};
 
-    return <PeopleClient people={people} page={page} hasMore={hasMore} />;
+export default async function PeoplePage() {
+    // fetch *all* people up front—no pagination props needed
+    const people = await getAllPeople();
+
+    return <PeopleClient people={people} />;
 }

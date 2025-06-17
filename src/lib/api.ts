@@ -1,7 +1,5 @@
-/* ------------------------------------------------------------------
-   lib/api.ts – typed API fetchers for SWAPI
-   Works with swapi.info and swapi.dev shapes.
------------------------------------------------------------------- */
+// lib/api.ts – typed API fetchers for SWAPI
+// Works with swapi.info and swapi.dev shapes.
 
 const BASE = "https://swapi.info/api";
 
@@ -17,11 +15,11 @@ export async function getResource<T>(
     ? pathOrUrl
     : `${BASE}${pathOrUrl}`;
   const res = await fetch(url, { next: nextOpts });
-  if (!res.ok) throw new Error("Network error");
+  if (!res.ok) throw new Error(`Network error: ${res.status}`);
   return (await res.json()) as T;
 }
 
-/** Extracts the numeric ID from a SWAPI URL */
+/** Extracts the numeric ID from a SWAPI URL **/
 export function extractId(url: string): string {
   const parts = url.split("/").filter(Boolean);
   return parts[parts.length - 1] ?? "";
@@ -78,12 +76,16 @@ export async function getAllPlanets(): Promise<Planet[]> {
   return getResource<Planet[]>("/planets");
 }
 
-export async function getPlanetByName(name: string): Promise<Planet | undefined> {
+export async function getPlanetByName(
+  name: string
+): Promise<Planet | undefined> {
   const response = await getResource<Planet[] | { results?: Planet[] }>(
     `/planets/?search=${encodeURIComponent(name)}`
   );
   const list = Array.isArray(response) ? response : response.results ?? [];
-  return list.find((p) => p.name.toLowerCase() === name.toLowerCase());
+  return list.find(
+    (p) => p.name.toLowerCase() === name.toLowerCase()
+  );
 }
 
 /* ------------------ Person Wrappers ------------------ */
@@ -92,21 +94,52 @@ export async function getPerson(id: string): Promise<Person> {
   return getResource<Person>(`/people/${id}`);
 }
 
+/**
+ * Fetch a single page of people (10 items) and indicate if more exist.
+ */
 export async function getPeoplePage(
-page: number
+  page: number
 ): Promise<{ list: Person[]; hasMore: boolean }> {
-const response = await getResource<
-Person[] | { results?: Person[]; next?: string | null }
->(`/people?page=${page}`);
-const fullList = Array.isArray(response)
-? response
-: response.results ?? [];
-const list = fullList.slice((page - 1) * 10, page * 10);
-const hasMore = Array.isArray(response)
-? page * 10 < fullList.length
-: Boolean((response as { next?: string | null }).next);
+  const response = await getResource<
+    Person[] | { results?: Person[]; next?: string | null }
+  >(`/people?page=${page}`);
 
-return { list, hasMore };
+  const fullList = Array.isArray(response)
+    ? response
+    : response.results ?? [];
+
+  const list = fullList.slice((page - 1) * 10, page * 10);
+  const hasMore = Array.isArray(response)
+    ? page * 10 < fullList.length
+    : Boolean((response as { next?: string | null }).next);
+
+  return { list, hasMore };
+}
+
+/**
+ * Fetch *all* people by following SWAPI’s pagination.
+ */
+export async function getAllPeople(): Promise<Person[]> {
+  let all: Person[] = [];
+  let nextUrl: string | null = `/people?page=1`;
+
+  while (nextUrl) {
+    const response = await getResource<
+      Person[] | { results?: Person[]; next?: string | null }
+    >(nextUrl);
+
+    const pageList = Array.isArray(response)
+      ? response
+      : response.results ?? [];
+
+    all = all.concat(pageList);
+
+    nextUrl = Array.isArray(response)
+      ? null
+      : (response as { next?: string | null }).next;
+  }
+
+  return all;
 }
 
 /* ------------------ Film Wrappers ------------------ */
@@ -118,20 +151,22 @@ export async function getFilm(id: string): Promise<Film> {
 /* ------------------ Species Wrappers ------------------ */
 
 export async function getSpeciesPage(
-page: number
+  page: number
 ): Promise<{ list: Species[]; hasMore: boolean }> {
-const response = await getResource<
-Species[] | { results?: Species[]; next?: string | null }
->(`/species?page=${page}`);
-const fullList = Array.isArray(response)
-? response
-: response.results ?? [];
-const list = fullList.slice((page - 1) * 10, page * 10);
-const hasMore = Array.isArray(response)
-? page * 10 < fullList.length
-: Boolean((response as { next?: string | null }).next);
+  const response = await getResource<
+    Species[] | { results?: Species[]; next?: string | null }
+  >(`/species?page=${page}`);
 
-return { list, hasMore };
+  const fullList = Array.isArray(response)
+    ? response
+    : response.results ?? [];
+
+  const list = fullList.slice((page - 1) * 10, page * 10);
+  const hasMore = Array.isArray(response)
+    ? page * 10 < fullList.length
+    : Boolean((response as { next?: string | null }).next);
+
+  return { list, hasMore };
 }
 
 export async function getSpeciesByName(
@@ -140,13 +175,19 @@ export async function getSpeciesByName(
   const response = await getResource<
     Species[] | { results?: Species[] }
   >(`/species/?search=${encodeURIComponent(name)}`);
+
   const list = Array.isArray(response)
     ? response
     : response.results ?? [];
-  return list.find((s) => s.name.toLowerCase() === name.toLowerCase());
+
+  return list.find(
+    (s) => s.name.toLowerCase() === name.toLowerCase()
+  );
 }
 
-// Fetches the species name from a given URL
+/**
+ * Fetches the species name from a given URL
+ */
 export async function getSpeciesName(url: string): Promise<string> {
   if (!url) return "Unknown";
   const res = await fetch(url);
