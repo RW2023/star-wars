@@ -1,4 +1,3 @@
-// app/components/PeopleClient.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -107,18 +106,21 @@ export default function PeopleClient({ people }: Props) {
                 {filtered.map((person) => (
                     <li
                         key={person.url}
-                        className="group relative rounded-xl border border-[var(--color-secondary)] bg-[var(--color-background)] backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-[var(--color-primary)] hover:ring hover:ring-[var(--color-primary)]/30 hover:ring-offset-1"
+                        className="group relative rounded-xl border border-[var(--color-secondary)] bg-[var(--color-background)]
+                       shadow-md transition-all duration-300
+                       hover:border-[var(--color-primary)] hover:shadow-lg hover:shadow-[var(--color-primary)]/40"
                     >
                         <div className="p-4">
                             <ItemCard
                                 href={`/people/${extractId(person.url)}`}
                                 title={person.name}
-                                className="block text-lg font-semibold text-[var(--color-foreground)] drop-shadow-[0_0_4px_var(--color-primary)] group-hover:text-primary transition-all"
+                                className="block text-lg font-semibold text-[var(--color-foreground)] glow-title group-hover:text-[var(--color-primary)] transition-colors"
                             />
                         </div>
                     </li>
                 ))}
             </ul>
+
             <BackToTopButton />
         </section>
     );

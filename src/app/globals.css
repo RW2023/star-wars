@@ -48,3 +48,10 @@ body {
     text-wrap: balance;
   }
 }
+
+.glow-title {
+  text-shadow:
+    0 0 2px var(--color-primary),
+    0 0 4px var(--color-primary),
+    0 0 6px var(--color-primary);
+}
