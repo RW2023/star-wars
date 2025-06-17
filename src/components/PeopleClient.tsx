@@ -56,7 +56,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
         <section className="max-w-7xl mx-auto px-4 py-16 space-y-14 text-[var(--color-foreground)]">
             {/* Hero Title */}
             <div className="text-center space-y-3">
-                <h1 className="text-5xl font-extrabold tracking-widest text-primary drop-shadow-[0_0_10px_var(--color-primary)]">
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-widest text-primary drop-shadow-[0_0_10px_var(--color-primary)]">
                     CHARACTERS
                 </h1>
                 <p className="text-[var(--color-secondary)] text-base sm:text-lg max-w-xl mx-auto">
@@ -107,7 +107,7 @@ export default function PeopleClient({ people, page, hasMore }: Props) {
                 {filtered.map((person) => (
                     <li
                         key={person.url}
-                        className="group relative rounded-xl border border-[var(--color-secondary)] bg-[var(--color-background)] backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-primary hover:ring hover:ring-primary/30 hover:ring-offset-1"
+                        className="group relative rounded-xl border border-[var(--color-secondary)] bg-[var(--color-background)] backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-[0_0_25px_var(--color-primary)] hover:border-[var(--color-primary)] hover:ring hover:ring-[var(--color-primary)]/30 hover:ring-offset-1"
                     >
                         <div className="p-4">
                             <ItemCard
