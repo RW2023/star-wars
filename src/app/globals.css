@@ -40,4 +40,7 @@ body {
   .content-auto {
     content-visibility: auto;
   }
+  .text-balance {
+    text-wrap: balance;
+  }
 }
