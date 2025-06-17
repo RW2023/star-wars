@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { Dna } from "lucide-react";
 import PaginationFloating from "@/components/PaginationFloating";
-import { getAllSpecies } from "@/lib/api";
-import type { Species } from "@/lib/types";
+import { getSpeciesPage } from "@/lib/api";
 import BackToTopButton from "@/components/BackToTopButton";
 
 export const metadata = {
@@ -16,13 +15,7 @@ export default async function SpeciesPage({
     searchParams?: { page?: string };
 }) {
     const page = Number(searchParams?.page ?? 1);
-    const data = await getAllSpecies(page);
-
-    // Handle both array and paginated responses
-    const list: Species[] = Array.isArray(data) ? data : data.results ?? [];
-    const hasMore = Array.isArray(data)
-        ? list.length >= 10
-        : Boolean((data as { next?: string | null }).next);
+    const { list, hasMore } = await getSpeciesPage(page);
 
     return (
         <section className="max-w-6xl mx-auto px-4 py-14 space-y-8 text-[var(--foreground)]">
