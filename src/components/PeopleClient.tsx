@@ -119,7 +119,6 @@ export default function PeopleClient({ people }: Props) {
                     </li>
                 ))}
             </ul>
-
             <BackToTopButton />
         </section>
     );

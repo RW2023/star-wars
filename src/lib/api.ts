@@ -124,7 +124,7 @@ export async function getAllPeople(): Promise<Person[]> {
   let nextUrl: string | null = `/people?page=1`;
 
   while (nextUrl) {
-    const response = await getResource<
+    const response: Person[] | { results?: Person[]; next?: string | null } = await getResource<
       Person[] | { results?: Person[]; next?: string | null }
     >(nextUrl);
 
@@ -136,7 +136,7 @@ export async function getAllPeople(): Promise<Person[]> {
 
     nextUrl = Array.isArray(response)
       ? null
-      : (response as { next?: string | null }).next;
+      : ((response as { next?: string | null }).next ?? null);
   }
 
   return all;
