@@ -49,6 +49,7 @@ export interface Person {
   gender: string;
   homeworld: string;
   films: string[];
+  species: string[];
 }
 
 export interface Film {
