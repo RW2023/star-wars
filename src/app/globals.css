@@ -49,9 +49,10 @@ body {
   }
 }
 
+/* globals.css */
 .glow-title {
   text-shadow:
-    0 0 2px var(--color-primary),
-    0 0 4px var(--color-primary),
-    0 0 6px var(--color-primary);
+    0 0 1px var(--color-glow),
+    0 0 3px var(--color-glow),
+    0 0 6px var(--color-glow);
 }
