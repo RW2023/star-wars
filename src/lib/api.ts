@@ -58,6 +58,20 @@ export interface Film {
   episode_id: number;
 }
 
+export interface Species {
+  name: string;
+  url: string;
+  classification: string;
+  designation: string;
+  average_height: string;
+  skin_colors: string;
+  hair_colors: string;
+  eye_colors: string;
+  average_lifespan: string;
+  language: string;
+  homeworld?: string;
+}
+
 /* ------------------ Planet Wrappers ------------------ */
 
 export async function getAllPlanets(): Promise<Planet[]> {
@@ -68,12 +82,8 @@ export async function getPlanetByName(name: string): Promise<Planet | undefined>
   const response = await getResource<Planet[] | { results?: Planet[] }>(
     `/planets/?search=${encodeURIComponent(name)}`
   );
-  const list = Array.isArray(response)
-    ? response
-    : response.results ?? [];
-  return list.find(
-    (p) => p.name.toLowerCase() === name.toLowerCase()
-  );
+  const list = Array.isArray(response) ? response : response.results ?? [];
+  return list.find((p) => p.name.toLowerCase() === name.toLowerCase());
 }
 
 /* ------------------ Person Wrappers ------------------ */
@@ -105,13 +115,33 @@ export async function getFilm(id: string): Promise<Film> {
   return getResource<Film>(`/films/${id}`);
 }
 
+/* ------------------ Species Wrappers ------------------ */
+
+export async function getAllSpecies(
+  page: number
+): Promise<Species[] | { results?: Species[]; next?: string | null }> {
+  return getResource<Species[] | { results?: Species[]; next?: string | null }>(
+    `/species?page=${page}`
+  );
+}
+
+export async function getSpeciesByName(
+  name: string
+): Promise<Species | undefined> {
+  const response = await getResource<
+    Species[] | { results?: Species[] }
+  >(`/species/?search=${encodeURIComponent(name)}`);
+  const list = Array.isArray(response)
+    ? response
+    : response.results ?? [];
+  return list.find((s) => s.name.toLowerCase() === name.toLowerCase());
+}
+
 // Fetches the species name from a given URL
 export async function getSpeciesName(url: string): Promise<string> {
   if (!url) return "Unknown";
-
   const res = await fetch(url);
   if (!res.ok) return "Unknown";
-
   const data = await res.json();
-  return data.name || "Unknown";
+  return (data as { name?: string }).name || "Unknown";
 }
