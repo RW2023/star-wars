@@ -26,8 +26,8 @@ export default function Navbar() {
         <nav
             className="sticky top-0 z-50 shadow-sm border-b transition-colors duration-300"
             style={{
-                backgroundColor: 'var(--background)',
-                color: 'var(--foreground)',
+                backgroundColor: 'var(--color-background)',
+                color: 'var(--color-foreground)',
                 borderColor: 'rgba(0,0,0,0.1)',
             }}
             aria-label="Main navigation"
@@ -52,7 +52,7 @@ export default function Navbar() {
                             key={name}
                             href={href}
                             className="font-medium hover:underline transition"
-                            style={{ color: 'var(--foreground)' }}
+                        style={{ color: 'var(--color-foreground)' }}
                         >
                             {name}
                         </Link>
@@ -84,8 +84,8 @@ export default function Navbar() {
                         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                         className="lg:hidden border-t"
                         style={{
-                            backgroundColor: 'var(--background)',
-                            color: 'var(--foreground)',
+                            backgroundColor: 'var(--color-background)',
+                            color: 'var(--color-foreground)',
                             borderColor: 'rgba(0,0,0,0.1)',
                         }}
                         role="menu"

@@ -31,9 +31,9 @@ export default function BackToTopButton() {
                     onClick={handleClick}
                     aria-label="Back to top"
                     className="fixed bottom-20 right-4 z-40 sm:bottom-20 sm:right-4
-                     md:right-6 p-2 rounded-full bg-[var(--surface)] text-[var(--accent)]
-                     shadow-lg ring-1 ring-[var(--border)] backdrop-blur
-                     hover:bg-[var(--accent)] hover:text-[var(--background)]
+                     md:right-6 p-2 rounded-full bg-[var(--color-surface)] text-[var(--color-accent)]
+                     shadow-lg ring-1 ring-[var(--color-border)] backdrop-blur
+                     hover:bg-[var(--color-accent)] hover:text-[var(--color-background)]
                      transition duration-200 sm:block md:block lg:hidden"
                 >
                     <ChevronUp className="w-5 h-5" />
