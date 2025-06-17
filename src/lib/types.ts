@@ -36,7 +36,7 @@ export interface Person {
  */
 export interface Planet {
   name: string;
-  url: string;
+  url?: string;
   climate?: string;
   population?: string;
   terrain?: string;
