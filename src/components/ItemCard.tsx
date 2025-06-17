@@ -23,7 +23,7 @@ export default function ItemCard({
                 href={href}
                 className="card-body h-full w-full flex items-center group"
             >
-                <h3 className="card-title text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">
+                <h3 className="card-title text-[var(--color-foreground)] group-hover:text-[var(--color-primary)] transition-colors">
                     {title}
                 </h3>
             </Link>

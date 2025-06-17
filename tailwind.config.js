@@ -13,6 +13,8 @@ const config = {
             info: "var(--color-info)",
             background: "var(--color-background)",
             foreground: "var(--color-foreground)",
+            surface: "var(--color-surface)",
+            border: "var(--color-border)",
           },
     },
   },

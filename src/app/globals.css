@@ -11,6 +11,8 @@
   --color-foreground: #111827;
   --color-secondary: #4B5563;
   --color-accent: #4B5D67;
+  --color-surface: #F3F4F6;
+  --color-border: #E5E7EB;
   --color-info: #3ABFF8;
 
   /* Typography */
@@ -23,6 +25,8 @@
   --color-background: #0F0F1B;
   --color-foreground: #E5E5E5;
   --color-secondary: #D1D5DB;
+  --color-surface: #1F2937;
+  --color-border: #374151;
   /* Keep accent/info/primary unless you want alternates */
 }
 
