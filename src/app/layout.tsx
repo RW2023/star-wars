@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import Navbar from "@/components/Navbar"; // ✅ import Navbar
 import "./globals.css";
 
 /* ------------------------------------------------------------------ */
@@ -40,7 +41,8 @@ export default function RootLayout({
       >
         {/* next-themes adds / removes the `dark` class on <html>        */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <Navbar /> {/* ✅ navbar now renders at the top of every page */}
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>
