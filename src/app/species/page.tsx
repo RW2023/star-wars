@@ -4,6 +4,7 @@ import { Dna } from "lucide-react";
 import PaginationFloating from "@/components/PaginationFloating";
 import { getAllSpecies } from "@/lib/api";
 import type { Species } from "@/lib/types";
+import BackToTopButton from "@/components/BackToTopButton";
 
 export const metadata = {
     title: "Species · SWAPI Explorer",
@@ -50,6 +51,7 @@ export default async function SpeciesPage({
             </ul>
 
             <PaginationFloating page={page} hasMore={hasMore} />
+            <BackToTopButton />
         </section>
     );
 }
