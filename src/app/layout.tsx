@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/components/Navbar"; // ✅ import Navbar
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 /* ------------------------------------------------------------------ */
@@ -43,6 +44,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar /> {/* ✅ navbar now renders at the top of every page */}
           <main>{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
