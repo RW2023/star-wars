@@ -32,7 +32,7 @@ export default async function FilmsPage() {
         console.error("Error loading films:", err);
         return (
             <main className="p-6 max-w-xl mx-auto text-center text-[var(--color-foreground)]">
-                <h1 className="text-3xl font-bold mb-4">Star Wars Films</h1>
+                <h1 className="text-4xl font-bold mb-4">Films</h1>
                 <p className="text-red-500 text-lg">
                     Failed to load films. Please try again later.
                 </p>
@@ -43,7 +43,7 @@ export default async function FilmsPage() {
     return (
         <main className="p-6 space-y-6 max-w-3xl mx-auto text-[var(--color-foreground)]">
             <h1 className="text-4xl font-extrabold text-center tracking-widest text-primary drop-shadow-[0_0_10px_var(--color-primary)]">
-                STAR WARS FILMS
+                FILMS
             </h1>
 
             <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">

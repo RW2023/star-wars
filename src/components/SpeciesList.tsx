@@ -9,8 +9,8 @@ interface SpeciesListProps {
 export default function SpeciesList({ list }: SpeciesListProps) {
     return (
         <section className="max-w-6xl mx-auto px-4 py-14 space-y-8 text-[var(--color-foreground)]">
-            <h1 className="text-4xl font-bold flex items-center gap-3">
-                <Dna className="w-8 h-8 text-[var(--color-primary)]" />
+            <h1 className="text-4xl sm:text-5xl flex items-center gap-3 font-extrabold tracking-widest text-primary justify-center drop-shadow-[0_0_10px_var(--color-primary)]">
+                <Dna className="w-8 h-8 :text-[var(--color-foreground)]" />
                 Species
             </h1>
 
