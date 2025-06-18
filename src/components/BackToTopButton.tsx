@@ -31,7 +31,7 @@ export default function BackToTopButton() {
                     onClick={handleClick}
                     aria-label="Back to top"
                     className="fixed bottom-20 right-4 z-40 sm:bottom-20 sm:right-4
-                     md:right-6 p-2 rounded-full bg-[var(--color-surface)] text-[var(--color-accent)]
+                     md:right-6 p-2 rounded-full bg-[var(--color-primary)] text-[var(--color-foreground)] dark:text-black
                      shadow-lg ring-1 ring-[var(--color-border)] backdrop-blur
                      hover:bg-[var(--color-accent)] hover:text-[var(--color-background)]
                      transition duration-200 sm:block md:block lg:hidden"
