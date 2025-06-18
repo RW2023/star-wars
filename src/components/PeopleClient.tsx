@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ItemCard from "@/components/ItemCard";
 import { extractId, getSpeciesName } from "@/lib/api";
 import type { Person } from "@/lib/types";
 import BackToTopButton from "@/components/BackToTopButton";
+import Link from "next/link";
 
 interface Props {
     people: Person[];
@@ -102,20 +102,37 @@ export default function PeopleClient({ people }: Props) {
             </div>
 
             {/* Card Grid */}
-            <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
                 {filtered.map((person) => (
                     <li
                         key={person.url}
-                        className="group relative rounded-xl border border-[var(--color-secondary)] bg-[var(--color-background)]
-                       shadow-md transition-all duration-300
-                       hover:border-[var(--color-primary)] hover:shadow-lg hover:shadow-[var(--color-primary)]/40"
+                        className="relative group overflow-hidden rounded-xl border border-[var(--color-accent)]/40 bg-[var(--color-background)] shadow-md transition-shadow hover:shadow-[0_0_16px_var(--color-primary)]/40"
                     >
-                        <div className="p-4">
-                            <ItemCard
-                                href={`/people/${extractId(person.url)}`}
-                                title={person.name}
-                                className="block text-lg font-semibold text-[var(--color-foreground)] glow-title group-hover:text-[var(--color-primary)] transition-colors"
-                            />
+                        <span
+                            className="absolute inset-0 -z-10 scale-110 bg-gradient-to-br from-[var(--color-primary)]/10 via-transparent to-[var(--color-accent)]/10 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
+                            aria-hidden="true"
+                        />
+
+                        <div className="p-6 space-y-3 text-[var(--color-foreground)]">
+                            <h2 className="text-lg font-semibold text-[var(--color-primary-soft)] glow-title">
+                                {person.name}
+                            </h2>
+                            <p className="text-sm">
+                                <span className="font-medium text-[var(--color-foreground)]">Gender:</span>{' '}
+                                <span className="text-[var(--color-secondary)]">{person.gender}</span>
+                            </p>
+                            <p className="text-sm">
+                                <span className="font-medium text-[var(--color-foreground)]">Species:</span>{' '}
+                                <span className="text-[var(--color-secondary)]">{person.speciesName}</span>
+                            </p>
+                            <div className="pt-4">
+                                <Link
+                                    href={`/people/${extractId(person.url)}`}
+                                    className="btn btn-sm border-[var(--color-primary)] text-[var(--color-primary-soft)] transition-colors hover:bg-[var(--color-primary)] hover:text-black dark:hover:text-[var(--color-background)]"
+                                >
+                                    View Details
+                                </Link>
+                            </div>
                         </div>
                     </li>
                 ))}

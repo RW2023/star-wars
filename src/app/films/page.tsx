@@ -46,24 +46,36 @@ export default async function FilmsPage() {
                 STAR WARS FILMS
             </h1>
 
-            <ul className="grid gap-4">
+            <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
                 {films.map((film) => {
                     const id = film.url.split("/").filter(Boolean).pop();
                     return (
-                        <li key={film.episode_id}>
-                            <Link
-                                href={`/films/${id}`}
-                                className="block rounded-lg border border-[var(--color-primary)] bg-[var(--color-background)] hover:bg-[var(--color-primary)] text-[var(--color-foreground)] hover:text-black dark:hover:text-[var(--color-background)] shadow transition-colors duration-200"
-                            >
-                                <div className="p-4">
-                                    <h2 className="text-lg md:text-xl font-semibold text-primary drop-shadow-[0_0_6px_var(--color-primary)]">
-                                        {film.title}
-                                    </h2>
-                                    <p className="text-sm opacity-70">
-                                        Released: {film.release_date}
-                                    </p>
+                        <li
+                            key={film.episode_id}
+                            className="relative group overflow-hidden rounded-xl border border-[var(--color-accent)]/40 bg-[var(--color-background)] shadow-md transition-shadow hover:shadow-[0_0_16px_var(--color-primary)]/40"
+                        >
+                            <span
+                                className="absolute inset-0 -z-10 scale-110 bg-gradient-to-br from-[var(--color-primary)]/10 via-transparent to-[var(--color-accent)]/10 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
+                                aria-hidden="true"
+                            />
+
+                            <div className="p-6 space-y-3 text-[var(--color-foreground)]">
+                                <h2 className="text-lg font-semibold text-[var(--color-primary-soft)] glow-title">
+                                    {film.title}
+                                </h2>
+                                <p className="text-sm">
+                                    <span className="font-medium text-[var(--color-foreground)]">Released:</span>{' '}
+                                    <span className="text-[var(--color-secondary)]">{film.release_date}</span>
+                                </p>
+                                <div className="pt-4">
+                                    <Link
+                                        href={`/films/${id}`}
+                                        className="btn btn-sm border-[var(--color-primary)] text-[var(--color-primary-soft)] transition-colors hover:bg-[var(--color-primary)] hover:text-black dark:hover:text-[var(--color-background)]"
+                                    >
+                                        View Details
+                                    </Link>
                                 </div>
-                            </Link>
+                            </div>
                         </li>
                     );
                 })}
