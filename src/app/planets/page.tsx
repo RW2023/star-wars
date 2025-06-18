@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getAllPlanets } from "@/lib/api";
 import { PlanetList } from "@/components/PlanetList";
+import BackToTopButton from "@/components/BackToTopButton";
 
 export const metadata: Metadata = {
     title: "Explore Planets · Star-Wars Visualizer",
@@ -15,6 +16,7 @@ export default async function PlanetsPage() {
                 Explore&nbsp;Planets
             </h1>
             <PlanetList planets={planets} />
+            <BackToTopButton />
         </main>
     );
 }
